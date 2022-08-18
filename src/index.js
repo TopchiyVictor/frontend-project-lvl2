@@ -54,6 +54,8 @@ const keys2 = Object.keys(obj2);
 
   console.log(result)
 
+  
+
 
 
  const getDiff = (obj1, obj2) => {
