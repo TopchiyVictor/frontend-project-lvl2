@@ -1,15 +1,7 @@
  import _ from 'lodash';
-const obj1 = {
-    "host": "hexlet.io",
-    "timeout": 50,
-    "proxy": "123.234.53.22",
-    "follow": false
-  };
-const obj2 = {
-    "timeout": 20,
-    "verbose": true,
-    "host": "hexlet.io"
-  };
+ import path from 'path';
+ import fs from 'fs';
+
 const getDiff = (obj1, obj2) => {
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
@@ -24,12 +16,32 @@ const getDiff = (obj1, obj2) => {
     if ((value1 && value2) && (value1 !== value2)) {
       return `- ${key}: ${value1} \n+ ${key}: ${value2}`;
     }
-    if (!_.has(obj2,value2)) {
+    if (!_.has(obj2,key)) {
       return `- ${key}: ${value1}`
     }
-    if (!_.has(obj1,value1)) {
+    if (!_.has(obj1,key)) {
       return `+ ${key}: ${value2}`
     }
-  });
-return result;
-  };
+    });
+  return result;
+};
+const getAbsolutPath = (filePath) => path.resolve(process.cwd(),'files', filePath);
+
+//console.log(getAbsolutPath('file1.json'));
+
+const readFile = (filePath) => fs.readFileSync(getAbsolutPath(filePath), 'utf-8');
+
+//console.log('string',readFile('file1.json'));
+
+const getObject = (filePath) => JSON.parse(readFile(filePath));
+
+//console.log('Object',getObject('file2.json'));
+
+const genDiff = (filePath1, filePath2) => {
+  const object1 = getObject(filePath1);
+  const object2 = getObject(filePath2);
+  return getDiff(object1, object2);
+};
+//console.log(genDiff('file1.json', 'file2.json'));
+
+export default genDiff();
