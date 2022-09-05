@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/TopchiyVictor/frontend-project-lvl2#readme",
   "dependencies": {
+    "commander": "^9.4.0",
     "lodash": "^4.17.21"
   }
 }
