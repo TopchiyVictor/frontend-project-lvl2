@@ -35,7 +35,7 @@ const readFile = (filePath) => fs.readFileSync(getAbsolutPath(filePath), 'utf-8'
 
 const getObject = (filePath) => JSON.parse(readFile(filePath));
 
-//console.log('Object',getObject('file2.json'));
+//console.log('Object',getObject('file1.json'));
 
 const genDiff = (filePath1, filePath2) => {
   const object1 = getObject(filePath1);
@@ -43,5 +43,4 @@ const genDiff = (filePath1, filePath2) => {
   return getDiff(object1, object2);
 };
 //console.log(genDiff('file1.json', 'file2.json'));
-
 export default genDiff();
