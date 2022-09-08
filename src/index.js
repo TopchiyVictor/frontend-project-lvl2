@@ -14,7 +14,7 @@ const getDiff = (obj1, obj2) => {
       return `  ${key}: ${value1}`;
     }
     if ((value1 && value2) && (value1 !== value2)) {
-      return `- ${key}: ${value1} \n+ ${key}: ${value2}`;
+      return `- ${key}: ${value1} \n + ${key}: ${value2}`;
     }
     if (!_.has(obj2,key)) {
       return `- ${key}: ${value1}`
@@ -43,4 +43,4 @@ const genDiff = (filePath1, filePath2) => {
   return getDiff(object1, object2);
 };
 //console.log(genDiff('file1.json', 'file2.json'));
-export default genDiff();
+export default genDiff;
