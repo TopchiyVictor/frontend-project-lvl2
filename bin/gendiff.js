@@ -13,5 +13,3 @@ program
      console.log(genDiff(filepath1, filepath2));
 });
 program.parse();
-
-//console.log(genDiff('file1.json', 'file2.json'));
