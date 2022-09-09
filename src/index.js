@@ -2,7 +2,20 @@
  import path from 'path';
  import fs from 'fs';
 
-const getDiff = (obj1, obj2) => {
+ const obj1 = {
+  "host": "hexlet.io",
+  "timeout": 50,
+  "proxy": "123.234.53.22",
+  "follow": false
+};
+
+const obj2 = {
+  "timeout": 20,
+  "verbose": true,
+  "host": "hexlet.io"
+};
+
+const getDiffInfo = (obj1, obj2) => {
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
   const uniq = _.uniq([...keys1, ...keys2]);
@@ -11,20 +24,61 @@ const getDiff = (obj1, obj2) => {
     const value1 = obj1[key];
     const value2 = obj2[key];
     if (_.isEqual(value1,value2)) {
-      return `  ${key}: ${value1}`;
+      return {
+        type: 'unchanged',
+        key,
+        value: value1,
+      };
     }
     if ((value1 && value2) && (value1 !== value2)) {
-      return `- ${key}: ${value1} \n + ${key}: ${value2}`;
+      return {
+        type: 'changed',
+        key,
+        value1,
+        value2,
+      }
+      
+      //`- ${key}: ${value1} \n + ${key}: ${value2}`;
     }
     if (!_.has(obj2,key)) {
-      return `- ${key}: ${value1}`
+      return {
+        type: 'delited',
+        key,
+        value: value1,
+      }
+      //`- ${key}: ${value1}`
     }
     if (!_.has(obj1,key)) {
-      return `+ ${key}: ${value2}`
+      return {
+        type: 'added',
+        key,
+        value: value2
+      }
+      //`+ ${key}: ${value2}`
     }
     });
+    console.log(result)
   return result;
 };
+
+const getDiff = (diffInfo) => {
+  const result = diffInfo.map((diff) => {
+    const typediff = diff.type;
+    switch (typediff) {
+      case 'delited':
+        return `- ${diff.key}: ${diff.value}`;
+      case 'unchanged':
+        return `  ${diff.key}: ${diff.value}`;
+      case 'changed':
+        return (`- ${diff.key}: ${diff.value1} \n + ${diff.key}: ${diff.value2}`);
+      case 'added':
+        return `+ ${diff.key}: ${diff.value}`;
+    }
+  })
+  return result;
+};
+console.log(getDiff(getDiffInfo(obj1, obj2)));
+
 const getAbsolutPath = (filePath) => path.resolve(process.cwd(),'files', filePath);
 
 //console.log(getAbsolutPath('file1.json'));
@@ -40,7 +94,7 @@ const getObject = (filePath) => JSON.parse(readFile(filePath));
 const genDiff = (filePath1, filePath2) => {
   const object1 = getObject(filePath1);
   const object2 = getObject(filePath2);
-  return getDiff(object1, object2);
+  return getDiff(getDiffInfo(object1, object2));
 };
 //console.log(genDiff('file1.json', 'file2.json'));
 export default genDiff;
