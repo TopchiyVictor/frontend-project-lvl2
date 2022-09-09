@@ -57,7 +57,7 @@ const getDiffInfo = (obj1, obj2) => {
       //`+ ${key}: ${value2}`
     }
     });
-    console.log(result)
+    //console.log(result)
   return result;
 };
 
@@ -70,14 +70,14 @@ const getDiff = (diffInfo) => {
       case 'unchanged':
         return `  ${diff.key}: ${diff.value}`;
       case 'changed':
-        return (`- ${diff.key}: ${diff.value1} \n + ${diff.key}: ${diff.value2}`);
+        return (`- ${diff.key}: ${diff.value1} \n+ ${diff.key}: ${diff.value2}`);
       case 'added':
         return `+ ${diff.key}: ${diff.value}`;
     }
   })
-  return result;
+  return `{\n${result.join('\n')}\n}`
 };
-console.log(getDiff(getDiffInfo(obj1, obj2)));
+//console.log(getDiff(getDiffInfo(obj1, obj2)));
 
 const getAbsolutPath = (filePath) => path.resolve(process.cwd(),'files', filePath);
 
