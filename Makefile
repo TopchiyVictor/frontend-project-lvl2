@@ -1,0 +1,2 @@
+make lint:
+	npx eslint .
